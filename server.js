@@ -135,8 +135,17 @@ const server = http.createServer((req, res) => {
   } else if (req.url === "/provider.js") {
     filePath = "./public/provider.js";
     contentType = "text/javascript";
+  } else if (req.url === "/style.css") {
+    filePath = "./public/style.css";
+    contentType = "text/css";
   } else if (req.url === "/") {
     filePath = "./public/index.html";
+  } else if (req.url === "/script.js") {
+    filePath = "./public/script.js";
+    contentType = "text/javascript";
+  } else if (req.url === "/style.css") {
+    filePath = "./public/style.css";
+    contentType = "text/css";
   }
 
   fs.readFile(filePath, (err, content) => {

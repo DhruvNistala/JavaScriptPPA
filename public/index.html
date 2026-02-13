@@ -4,15 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
     <title>Document</title>
 </head>
 
 <body>
-    <h1>
+    <h1 class="heading">
         Index Page
     </h1>
     <li><a href="/client"> Client Portal </a></li>
     <li><a href="/provider"> Provider Portal </a></li>
+
+
+    <form id="form">
+        <label for="ageEntry" class="setAge">Set age:</label>
+        <input type="text" id="ageEntry" name="ageEntry" class="ageEntry">
+        <input type="submit" value="Submit" id="submitButton" class="submitBtn">
+    </form>
+
+    <button id="increment" class="increment">
+        Increment
+    </button>
+
+    <button id="decrement" class="decrement">
+        Decrement
+    </button>
+
+    <div id="age" class="age">Your age is: </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

@@ -10,7 +10,7 @@ This project extends the scheduling app to support **creating slots** and updati
 - `POST /api/slots?startTime=...&endTime=...` → creates a slot
   - `201` Created: returns created slot
   - `400` Bad Request: returns `{ "error": "..." }`
-  - `409` Conflict: duplicate slot
+  - `409` Conflict: duplicate slotg
 
 ## Validation + Design Choices
 - Server validates required fields, valid date format, and `endTime > startTime`.

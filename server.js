@@ -49,10 +49,10 @@ function nextId() {
 
 function validateSlotTimes(startTime, endTime) {
   if (typeof startTime !== "string" || startTime.trim().length === 0) {
-    return { ok: false, message: "startTime is required" };
+    return { ok: false, message: "Please ensure both the start time and end time is entered correctly." };
   }
   if (typeof endTime !== "string" || endTime.trim().length === 0) {
-    return { ok: false, message: "endTime is required" };
+    return { ok: false, message: "Please ensure both the start time and end time is entered correctly." };
   }
 
   // ** verify time slot and order,  verify endTime is after startTime

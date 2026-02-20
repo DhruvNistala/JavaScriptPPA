@@ -1,6 +1,6 @@
-# PPA 3: Appointment Slot Creation (POST + Validation)
+# PPA 4: Enhancing Client-Side Interaction
 
-This project extends the scheduling app to support **creating slots** and updating the UI without page reloads.
+This project extends the scheduling app by using CSS and html files with scripts in JavaScript.
 
 ## Run
 `node server.js` then open `http://localhost:3000/provider`.

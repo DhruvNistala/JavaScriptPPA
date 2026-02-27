@@ -1,38 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Appointments Calendar</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-    <h1 class="heading">
-        Index Page
-    </h1>
-    <li><a href="/client"> Client Portal </a></li>
-    <li><a href="/provider"> Provider Portal </a></li>
+  <header class="pageHeader">
+    <h1 id="monthTitle">Appointments</h1>
+    <p class="subtitle">Create, view, and delete appointments.</p>
+  </header>
 
+  <section id="message" class="message" aria-live="polite"></section>
 
-    <form id="form">
-        <label for="ageEntry" class="setAge">Set age:</label>
-        <input type="text" id="ageEntry" name="ageEntry" class="ageEntry">
-        <input type="submit" value="Submit" id="submitButton" class="submitBtn">
-    </form>
+  <section class="panel">
+    <h2>Create Appointment</h2>
+    <div class="formRow">
+      <label for="titleInput">Title</label>
+      <input type="text" id="titleInput" placeholder="Enter Event Title">
+    </div>
+    <div class="formRow">
+      <label for="dateTimeInput">Date &amp; Time</label>
+      <input type="datetime-local" id="dateTimeInput">
+    </div>
+    <div class="formRow">
+      <label for="notesInput">Notes</label>
+      <input type="text" id="notesInput" placeholder="">
+    </div>
+    <button id="createAppointmentButton">Add Appointment</button>
+  </section>
 
-    <button id="increment" class="increment">
-        Increment
-    </button>
+  <section class="panel">
+    <h2>Month View</h2>
+    <div id="calendarGrid"></div>
+  </section>
 
-    <button id="decrement" class="decrement">
-        Decrement
-    </button>
-
-    <div id="age" class="age">Your age is: </div>
-
-    <script src="script.js"></script>
+  <script src="/script.js"></script>
 </body>
 
 </html>

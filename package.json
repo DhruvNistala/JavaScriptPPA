@@ -1,0 +1,9 @@
+{
+  "name": "ppa6",
+  "version": "1.0.0",
+  "description": "PPA6",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

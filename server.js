@@ -1,169 +1,177 @@
-import http from "http";
-import fs from "fs";
-import url from "url";  // add new one, from ?startTime=...&endTime=...
+"use strict";
 
-console.log("=== Starting server.js ===");
+const http = require("http");
+const url = require("url");
+const fs = require("fs");
+const path = require("path");
 
-const slots = [
-  {
-    id: 1,
-    startTime: "2026-03-01T09:00",
-    endTime: "2026-03-01T09:30",
-    status: "available"
-  },
-  {
-    id: 2,
-    startTime: "2026-03-01T10:00",
-    endTime: "2026-03-01T10:30",
-    status: "available"
-  },
-  {
-    id: 3,
-    startTime: "2026-03-01T11:00",
-    endTime: "2026-03-01T11:30",
-    status: "available"
-  },
-  {
-    id: 4,
-    startTime: "2026-03-01T14:00",
-    endTime: "2026-03-01T14:30",
-    status: "available"
-  },
-  {
-    id: 5,
-    startTime: "2026-03-01T15:00",
-    endTime: "2026-03-01T15:30",
-    status: "booked"
+const DATA_FILE = path.join(__dirname, "appointments.json");
+let appointments = [];
+
+function loadAppointments() {
+  try {
+    const text = fs.readFileSync(DATA_FILE, "utf8");
+    const data = JSON.parse(text);
+    if (Array.isArray(data)) {
+      appointments = data;
+    } else {
+      appointments = [];
+      console.warn("appointments.json was not an array.");
+    }
+  } catch (error) {
+    appointments = [];
+    console.warn("Could not read appointments.json.");
   }
-];
-
-// new function: waiting for JSON response
-function sendJson(res, statusCode, payload) {
-  res.writeHead(statusCode, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(payload));
 }
 
-function nextId() {
-  return slots.length > 0 ? Math.max(...slots.map(s => s.id)) + 1 : 1;
+function saveAppointments() {
+  const text = JSON.stringify(appointments, null, 2);
+  try { // using file system
+    fs.writeFileSync(DATA_FILE, text, "utf8");
+  } catch (error) {
+    console.error("Failed to write appointments.json:", error.message);
+  }
 }
 
-function validateSlotTimes(startTime, endTime) {
-  if (typeof startTime !== "string" || startTime.trim().length === 0) {
-    return { ok: false, message: "Please ensure both the start time and end time is entered correctly." };
-  }
-  if (typeof endTime !== "string" || endTime.trim().length === 0) {
-    return { ok: false, message: "Please ensure both the start time and end time is entered correctly." };
-  }
-
-  // ** verify time slot and order,  verify endTime is after startTime
-  const start = new Date(startTime);
-  const end = new Date(endTime);
-
-  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-    return { ok: false, message: "Invalid date format" };
-  }
-
-  if (end <= start) {
-    return { ok: false, message: "endTime must be after startTime" };
-  }
-
-  return { ok: true, message: "" };
+function sendJson(response, statusCode, data) {
+  response.writeHead(statusCode, { "Content-Type": "application/json" });
+  response.end(JSON.stringify(data));
 }
 
-function isDuplicate(startTime, endTime) {
-  return slots.some(slot =>
-    slot.startTime === startTime && slot.endTime === endTime
-  );
+function sendText(response, statusCode, message) {
+  response.writeHead(statusCode, { "Content-Type": "text/plain" });
+  response.end(message);
 }
 
-const server = http.createServer((req, res) => {
-  console.log("Request:", req.method, req.url);
+function parseJsonBody(text) {
+  if (!text || !text.trim()) {
+    return { ok: false, error: "Request body empty" };
+  }
+  try {
+    const value = JSON.parse(text);
+    return { ok: true, value };
+  } catch (error) {
+    return { ok: false, error: "Invalid JSON" };
+  }
+}
 
-  const parsedUrl = url.parse(req.url, true);
-  const path = parsedUrl.pathname;
-  const query = parsedUrl.query;
+function validateAppointment(input) {
+  if (!input || typeof input !== "object") {
+    return { ok: false, error: "Appointment must be an object" };
+  }
 
-  // GET /api/slots
-  if (path === "/api/slots" && req.method === "GET") {
-    sendJson(res, 200, slots);
+  const title = typeof input.title === "string" ? input.title.trim() : "";
+  const datetime = typeof input.datetime === "string" ? input.datetime.trim() : "";
+  const notes = typeof input.notes === "string" ? input.notes.trim() : "";
+
+  if (!title) {
+    return { ok: false, error: "Title is required." };
+  }
+
+  if (!datetime) {
+    return { ok: false, error: "Date/time is required." };
+  }
+
+  const parsed = new Date(datetime);
+  if (Number.isNaN(parsed.getTime())) {
+    return { ok: false, error: "Invalid date/time value." };
+  }
+
+  return { ok: true, value: { title, datetime, notes } };
+}
+
+loadAppointments();
+
+const server = http.createServer((request, response) => {
+  const parsedUrl = url.parse(request.url, true);
+  const pathName = parsedUrl.pathname;
+
+  if (request.method === "GET" && pathName === "/appointments") {
+    sendJson(response, 200, appointments);
     return;
   }
 
-  // add : POST /api/slots
-  if (path === "/api/slots" && req.method === "POST") {
-    const startTime = query.startTime;
-    const endTime = query.endTime;
+  if (request.method === "POST" && pathName === "/appointments") {
+    let body = "";
+    request.on("data", (chunk) => {
+      body += chunk;
+    });
 
-    // verify input
-    const result = validateSlotTimes(startTime, endTime);
-    if (!result.ok) {
-      sendJson(res, 400, { error: result.message });
-      return;
-    }
+    request.on("end", () => {
+      const parsed = parseJsonBody(body);
+      if (!parsed.ok) {
+        sendText(response, 400, parsed.error);
+        return;
+      }
 
-    // **verify duplicate
-    if (isDuplicate(startTime, endTime)) {
-      sendJson(res, 409, { error: "Duplicate slot" });
-      return;
-    }
+      const validated = validateAppointment(parsed.value);
+      if (!validated.ok) {
+        sendText(response, 400, validated.error);
+        return;
+      }
 
-    // create new slot
-    const slot = {
-      id: nextId(),
-      startTime: startTime,
-      endTime: endTime,
-      status: "available"
-    };
+      appointments.push(validated.value);
+      saveAppointments();
+      sendText(response, 200, "Appointment added.");
+    });
 
-    slots.push(slot);
-    console.log("New slot created:", slot);
-    sendJson(res, 201, slot);
     return;
   }
 
-  // original format doc
-  let filePath = "./public/index.html";
-  let contentType = "text/html";
+  if (request.method === "DELETE" && pathName.startsWith("/appointments/")) {
+    const parts = pathName.split("/");
+    const index = Number(parts[2]);
 
-  if (req.url === "/provider") {
-    filePath = "./public/provider.html";
-  } else if (req.url === "/client") {
-    filePath = "./public/client.html";
-  } else if (req.url === "/client.js") {
-    filePath = "./public/client.js";
-    contentType = "text/javascript";
-  } else if (req.url === "/provider.js") {
-    filePath = "./public/provider.js";
-    contentType = "text/javascript";
-  } else if (req.url === "/style.css") {
-    filePath = "./public/style.css";
-    contentType = "text/css";
-  } else if (req.url === "/") {
-    filePath = "./public/index.html";
-  } else if (req.url === "/script.js") {
-    filePath = "./public/script.js";
-    contentType = "text/javascript";
-  } else if (req.url === "/style.css") {
-    filePath = "./public/style.css";
-    contentType = "text/css";
-  }
-
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      console.error("Error:", err.message);
-      res.writeHead(500);
-      res.end("Server error");
+    if (!Number.isInteger(index)) {
+      sendText(response, 400, "Invalid appointment index.");
       return;
     }
-    res.writeHead(200, { "Content-Type": contentType });
-    res.end(content);
-  });
+
+    if (index >= 0 && index < appointments.length) {
+      appointments.splice(index, 1);
+      saveAppointments();
+      sendText(response, 200, "Appointment deleted.");
+    } else {
+      sendText(response, 400, "Invalid appointment index.");
+    }
+
+    return;
+  }
+
+  if (request.method === "GET") {
+    let filePath = "";
+    let contentType = "text/plain";
+
+    if (pathName === "/" || pathName === "/index.html") {
+      filePath = path.join(__dirname, "public", "index.html");
+      contentType = "text/html";
+    } else if (pathName === "/script.js") {
+      filePath = path.join(__dirname, "public", "script.js");
+      contentType = "text/javascript";
+    } else if (pathName === "/style.css") {
+      filePath = path.join(__dirname, "public", "style.css");
+      contentType = "text/css";
+    } else {
+      sendText(response, 404, "Not Found");
+      return;
+    }
+
+    fs.readFile(filePath, (err, content) => {
+      if (err) {
+        console.error("Static file error:", err.message);
+        sendText(response, 500, "Server error.");
+        return;
+      }
+      response.writeHead(200, { "Content-Type": contentType });
+      response.end(content);
+    });
+
+    return;
+  }
+
+  sendText(response, 404, "Not Found");
 });
 
 server.listen(3000, () => {
-  console.log("==========================================");
-  console.log("✅ Server running at http://localhost:3000");
-  console.log("==========================================");
+  console.log("Server running at http://localhost:3000");
 });
-
-console.log("=== Setup complete ===");

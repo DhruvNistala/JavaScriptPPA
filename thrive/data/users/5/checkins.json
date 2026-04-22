@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-04-21T14:00:00.000Z",
+    "mood": "okay",
+    "pain": 4,
+    "fatigue": 6,
+    "symptoms": [
+      "dizziness"
+    ],
+    "notes": "Slight headache",
+    "recommendation": {
+      "intensity": "low",
+      "workout": "Chair Exercises & Light Walking (20 min)",
+      "message": "Based on your moderate fatigue, we have adjusted today's workout to lower intensity."
+    }
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-04-20T13:00:00.000Z",
+    "mood": "good",
+    "pain": 1,
+    "fatigue": 2,
+    "symptoms": [],
+    "notes": "",
+    "recommendation": {
+      "intensity": "moderate",
+      "workout": "Cardio & Strength (30 min)",
+      "message": "You're feeling great! Your regular Cardio & Strength session is ready."
+    }
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-04-19T12:00:00.000Z",
+    "mood": "tired",
+    "pain": 3,
+    "fatigue": 8,
+    "symptoms": [
+      "shortness-of-breath"
+    ],
+    "notes": "Poor sleep",
+    "recommendation": {
+      "intensity": "very-low",
+      "workout": "Gentle Breathing & Stretching (10 min)",
+      "message": "Your fatigue is high today. We have replaced your workout with a gentle 10-minute session."
+    }
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-04-22T08:15:09.583Z",
+    "mood": "okay",
+    "pain": 5,
+    "fatigue": 6,
+    "symptoms": [
+      "dizziness"
+    ],
+    "notes": "Slight dizziness this morning.",
+    "recommendation": {
+      "intensity": "low",
+      "workout": "Chair Exercises & Light Walking (20 min)",
+      "message": "Based on moderate fatigue, today's workout is lower intensity. Stay hydrated and move gently."
+    }
+  }
+]

@@ -35,28 +35,43 @@ function uWrite(userId, name, data) {
   writeJson(uFile(userId, name), data);
 }
 
-// Seed data for new users (copied from global seed files on first register)
-const SEED_WORKOUTS = [
-  { id:1, timestamp:"2026-04-16T08:00:00.000Z", name:"Morning Walk",       duration:1200, kcalBurned:144, type:"Cardio",      intensity:"low"      },
-  { id:2, timestamp:"2026-04-15T15:00:00.000Z", name:"Chair Exercises",    duration:900,  kcalBurned:65,  type:"Strength",    intensity:"low"      },
-  { id:3, timestamp:"2026-04-15T09:00:00.000Z", name:"Stretching Routine", duration:600,  kcalBurned:42,  type:"Flexibility", intensity:"low"      },
-  { id:4, timestamp:"2026-04-14T17:00:00.000Z", name:"Evening Walk",       duration:1500, kcalBurned:180, type:"Cardio",      intensity:"moderate" },
-  { id:5, timestamp:"2026-04-14T10:00:00.000Z", name:"Balance Exercises",  duration:720,  kcalBurned:58,  type:"Balance",     intensity:"low"      },
-  { id:6, timestamp:"2026-04-13T09:30:00.000Z", name:"Cardio & Strength",  duration:1800, kcalBurned:216, type:"Cardio",      intensity:"moderate" },
-  { id:7, timestamp:"2026-04-12T08:15:00.000Z", name:"Morning Walk",       duration:1200, kcalBurned:144, type:"Cardio",      intensity:"low"      },
-];
-const SEED_CHECKINS = [
-  { id:1, timestamp:"2026-04-15T09:15:00.000Z", mood:"okay",  pain:4, fatigue:6, symptoms:["dizziness"], notes:"Slight headache",
-    recommendation:{ intensity:"low", workout:"Chair Exercises & Light Walking (20 min)", message:"Based on your moderate fatigue, we have adjusted today's workout to lower intensity." } },
-  { id:2, timestamp:"2026-04-14T08:30:00.000Z", mood:"good",  pain:1, fatigue:2, symptoms:[], notes:"",
-    recommendation:{ intensity:"moderate", workout:"Cardio & Strength (30 min)", message:"You're feeling great! Your regular Cardio & Strength session is ready." } },
-  { id:3, timestamp:"2026-04-13T07:50:00.000Z", mood:"tired", pain:3, fatigue:8, symptoms:["shortness-of-breath"], notes:"Poor sleep",
-    recommendation:{ intensity:"very-low", workout:"Gentle Breathing & Stretching (10 min)", message:"Your fatigue is high today. We have replaced your workout with a gentle 10-minute session." } },
-];
-const SEED_MEALS = [
-  { id:1, timestamp:"2026-04-16T07:30:00.000Z", name:"Avocado Toast", kcal:200, type:"breakfast" },
-  { id:2, timestamp:"2026-04-16T12:30:00.000Z", name:"Chicken Bowl",  kcal:750, type:"lunch"     },
-];
+// Seed data generators — dates relative to now so stats always look live
+function daysAgo(n, hour = 9) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  d.setHours(hour, 0, 0, 0);
+  return d.toISOString();
+}
+
+function makeSeedWorkouts() {
+  return [
+    { id:1, timestamp:daysAgo(0, 8),  name:"Morning Walk",       duration:1200, kcalBurned:144, type:"Cardio",      intensity:"low"      },
+    { id:2, timestamp:daysAgo(1, 15), name:"Chair Exercises",    duration:900,  kcalBurned:65,  type:"Strength",    intensity:"low"      },
+    { id:3, timestamp:daysAgo(1, 9),  name:"Stretching Routine", duration:600,  kcalBurned:42,  type:"Flexibility", intensity:"low"      },
+    { id:4, timestamp:daysAgo(2, 17), name:"Evening Walk",       duration:1500, kcalBurned:180, type:"Cardio",      intensity:"moderate" },
+    { id:5, timestamp:daysAgo(2, 10), name:"Balance Exercises",  duration:720,  kcalBurned:58,  type:"Balance",     intensity:"low"      },
+    { id:6, timestamp:daysAgo(3, 9),  name:"Cardio & Strength",  duration:1800, kcalBurned:216, type:"Cardio",      intensity:"moderate" },
+    { id:7, timestamp:daysAgo(5, 8),  name:"Morning Walk",       duration:1200, kcalBurned:144, type:"Cardio",      intensity:"low"      },
+  ];
+}
+
+function makeSeedCheckins() {
+  return [
+    { id:1, timestamp:daysAgo(1, 9),  mood:"okay",  pain:4, fatigue:6, symptoms:["dizziness"], notes:"Slight headache",
+      recommendation:{ intensity:"low", workout:"Chair Exercises & Light Walking (20 min)", message:"Based on your moderate fatigue, we have adjusted today's workout to lower intensity." } },
+    { id:2, timestamp:daysAgo(2, 8),  mood:"good",  pain:1, fatigue:2, symptoms:[], notes:"",
+      recommendation:{ intensity:"moderate", workout:"Cardio & Strength (30 min)", message:"You're feeling great! Your regular Cardio & Strength session is ready." } },
+    { id:3, timestamp:daysAgo(3, 7),  mood:"tired", pain:3, fatigue:8, symptoms:["shortness-of-breath"], notes:"Poor sleep",
+      recommendation:{ intensity:"very-low", workout:"Gentle Breathing & Stretching (10 min)", message:"Your fatigue is high today. We have replaced your workout with a gentle 10-minute session." } },
+  ];
+}
+
+function makeSeedMeals() {
+  return [
+    { id:1, timestamp:daysAgo(0, 7),  name:"Avocado Toast",  kcal:200, type:"breakfast" },
+    { id:2, timestamp:daysAgo(0, 12), name:"Chicken Bowl",   kcal:750, type:"lunch"     },
+  ];
+}
 
 // ===== AUTH =====
 function hashPassword(password, salt) {
@@ -73,7 +88,7 @@ function generateToken() { return crypto.randomBytes(32).toString("hex"); }
 
 function authenticate(req) {
   const header = req.headers["authorization"];
-  if (!header?.startsWith("Bearer ")) return null;
+  if (!header || !header.startsWith("Bearer ")) return null;
   const token    = header.slice(7);
   const sessions = readJson(path.join(DATA_DIR, "sessions.json"), []);
   const session  = sessions.find(s => s.token === token && new Date(s.expires) > new Date());
@@ -125,7 +140,7 @@ function serveStatic(res, filePath) {
   const ext = path.extname(filePath);
   fs.readFile(filePath, (err, content) => {
     if (err) { res.writeHead(404); res.end("Not found"); return; }
-    res.writeHead(200, { "Content-Type": MIME[ext] || "text/plain" });
+    res.writeHead(200, { "Content-Type": MIME[ext] || "text/plain", "Cache-Control": "no-store" });
     res.end(content);
   });
 }
@@ -166,9 +181,9 @@ route("POST", "/api/auth/register", async (req, res) => {
   // Seed new user's data
   const profile = { name, age:null, sex:null, weight:null, height:null, condition:null, medication:null, goals:[] };
   uWrite(user.id, "profile.json",  profile);
-  uWrite(user.id, "checkins.json", JSON.parse(JSON.stringify(SEED_CHECKINS)));
-  uWrite(user.id, "workouts.json", JSON.parse(JSON.stringify(SEED_WORKOUTS)));
-  uWrite(user.id, "meals.json",    JSON.parse(JSON.stringify(SEED_MEALS)));
+  uWrite(user.id, "checkins.json", makeSeedCheckins());
+  uWrite(user.id, "workouts.json", makeSeedWorkouts());
+  uWrite(user.id, "meals.json",    makeSeedMeals());
 
   const token = createSession(user.id);
   console.log(`  → Registered user ${user.id} <${email}>`);
@@ -195,7 +210,7 @@ route("POST", "/api/auth/login", async (req, res) => {
 
 route("POST", "/api/auth/logout", async (req, res) => {
   const header = req.headers["authorization"];
-  if (header?.startsWith("Bearer ")) {
+  if (header && header.startsWith("Bearer ")) {
     const token    = header.slice(7);
     const sessions = readJson(path.join(DATA_DIR, "sessions.json"), []);
     writeJson(path.join(DATA_DIR, "sessions.json"), sessions.filter(s => s.token !== token));
@@ -209,7 +224,7 @@ route("GET", "/api/auth/me", async (req, res) => {
   const users   = readJson(path.join(DATA_DIR, "users.json"), []);
   const user    = users.find(u => u.id === userId);
   const profile = uRead(userId, "profile.json", {});
-  return sendJson(res, 200, { id:userId, email:user?.email, name:profile.name });
+  return sendJson(res, 200, { id:userId, email:user ? user.email : null, name:profile.name });
 });
 
 // ── Profile ───────────────────────────────────────────────────

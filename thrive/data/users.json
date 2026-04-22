@@ -5,5 +5,33 @@
     "passwordHash": "773e6f719de2168252ed8fb5fc1b1a2d7d9a90717df45c895be289a102407e0faa5916b91eadb9469986762c2203bfc6537b0fd4b93f5bf54926d05283c5a464",
     "salt": "0b5dedf89152ff6b06a7f623125e0519",
     "createdAt": "2026-04-17T03:15:09.502Z"
+  },
+  {
+    "id": 2,
+    "email": "asdf@asdf.asfsdfd",
+    "passwordHash": "0a79275bfc385e4b2a20b9310d9ce2ed445cbf86af0daa03f7997db18a9a1e0d1f59b7783f931f07754aa0fa81a619e7dd1eaa22588427e9cab72eb732696524",
+    "salt": "da9c14da343675ea8c508b0ad3bf69c0",
+    "createdAt": "2026-04-22T07:37:31.425Z"
+  },
+  {
+    "id": 3,
+    "email": "test@thrive.test",
+    "passwordHash": "505114bc629853edffe0950b909d92eb970cd297ec5b783015a31d5263766b938f2fdc01f3deaddc66feb6f210edcb4655e5867a7302cb093eab296567e2f072",
+    "salt": "192e4c8adbe54e8f35708c1ac71967e1",
+    "createdAt": "2026-04-22T07:40:27.143Z"
+  },
+  {
+    "id": 4,
+    "email": "jane@thrive.test",
+    "passwordHash": "47fafa3a4a2cbd47b2111703a6048ee0c0398e795c5e3636dacce392fc2f2ca0e687701c240f4e8b6a4bebfb379481a137ce4bd6ae807c638e079e0bab70b0f9",
+    "salt": "9b270c0a3752b0b82ba788e326f90824",
+    "createdAt": "2026-04-22T08:04:47.296Z"
+  },
+  {
+    "id": 5,
+    "email": "demo@thrive.test",
+    "passwordHash": "5ef7551bf247f627acb1d72c254e038e54772d833ac40689ba942fefedec0f7c0b392f8c3b75fa96ef2124364b7d22d99f46ea61c81b7d35af32d019a23ef6f0",
+    "salt": "0d2833cd2eb61804e8ce2b4131d58169",
+    "createdAt": "2026-04-22T08:07:28.839Z"
   }
 ]

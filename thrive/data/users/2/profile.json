@@ -1,0 +1,12 @@
+{
+  "name": "asdf",
+  "age": "12",
+  "sex": "male",
+  "weight": "1",
+  "height": "1",
+  "condition": "migraine",
+  "medication": "2",
+  "goals": [
+    "Sleep Well"
+  ]
+}

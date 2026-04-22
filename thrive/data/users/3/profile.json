@@ -1,0 +1,13 @@
+{
+  "name": "Test User",
+  "age": 35,
+  "sex": "male",
+  "weight": 175,
+  "height": 6,
+  "condition": "hypertension",
+  "medication": null,
+  "goals": [
+    "Lower Blood Pressure",
+    "Build Strength"
+  ]
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-04-22T13:00:00.000Z",
+    "name": "Morning Walk",
+    "duration": 1200,
+    "kcalBurned": 144,
+    "type": "Cardio",
+    "intensity": "low"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-04-21T20:00:00.000Z",
+    "name": "Chair Exercises",
+    "duration": 900,
+    "kcalBurned": 65,
+    "type": "Strength",
+    "intensity": "low"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-04-21T14:00:00.000Z",
+    "name": "Stretching Routine",
+    "duration": 600,
+    "kcalBurned": 42,
+    "type": "Flexibility",
+    "intensity": "low"
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-04-20T22:00:00.000Z",
+    "name": "Evening Walk",
+    "duration": 1500,
+    "kcalBurned": 180,
+    "type": "Cardio",
+    "intensity": "moderate"
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-04-20T15:00:00.000Z",
+    "name": "Balance Exercises",
+    "duration": 720,
+    "kcalBurned": 58,
+    "type": "Balance",
+    "intensity": "low"
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-04-19T14:00:00.000Z",
+    "name": "Cardio & Strength",
+    "duration": 1800,
+    "kcalBurned": 216,
+    "type": "Cardio",
+    "intensity": "moderate"
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-04-17T13:00:00.000Z",
+    "name": "Morning Walk",
+    "duration": 1200,
+    "kcalBurned": 144,
+    "type": "Cardio",
+    "intensity": "low"
+  }
+]

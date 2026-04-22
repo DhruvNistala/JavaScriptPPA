@@ -96,7 +96,7 @@ function switchTab(tab) {
   document.querySelectorAll(".tab-content").forEach(t => { t.classList.remove("active"); t.style.display = "none"; });
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   const content = document.getElementById(`tab-${tab}`);
-  if (content) { content.classList.add("active"); content.style.display = "block"; }
+  if (content) { content.classList.remove("hidden"); content.classList.add("active"); content.style.display = "block"; }
   const nav = document.getElementById(`nav-${tab}`);
   if (nav) nav.classList.add("active");
   if (tab === "dashboard")  loadDashboard();
@@ -188,7 +188,10 @@ function savePersonalInfo() {
   const weight = document.getElementById("input-weight").value;
   const height = document.getElementById("input-height").value;
   if (!age || !sex || !weight || !height) { showToast("Please fill in all fields"); return; }
-  state.onboardingInfo = { ...state.onboardingInfo, age, sex, weight, height };
+  state.onboardingInfo.age = age;
+  state.onboardingInfo.sex = sex;
+  state.onboardingInfo.weight = weight;
+  state.onboardingInfo.height = height;
   showScreen("screen-health-condition");
 }
 
@@ -204,17 +207,15 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ===== DASHBOARD ===== */
 async function loadDashboard() {
   try {
-    const [profile, checkin, workouts] = await Promise.all([
-      api("GET", "/api/profile"),
-      api("GET", "/api/checkins/latest").catch(() => null),
-      api("GET", "/api/workouts"),
-    ]);
+    const profile  = await api("GET", "/api/profile");
+    const checkin  = await api("GET", "/api/checkins/latest").catch(() => null);
+    const workouts = await api("GET", "/api/workouts");
 
     // Header
     el("user-name-display", profile.name || "Welcome");
 
     // Latest recommendation
-    if (checkin?.recommendation) {
+    if (checkin && checkin.recommendation) {
       el("dash-rec-title", checkin.recommendation.workout);
       const msgEl = document.getElementById("dash-rec-message");
       if (msgEl) msgEl.innerHTML = `<div class="step"><span class="step-dot"></span>${checkin.recommendation.message}</div>`;
@@ -242,7 +243,7 @@ function showCheckIn() {
   document.querySelectorAll(".tab-content").forEach(t => { t.classList.remove("active"); t.style.display = "none"; });
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   const tab = document.getElementById("tab-checkin");
-  tab.classList.add("active"); tab.style.display = "block";
+  tab.classList.remove("hidden"); tab.classList.add("active"); tab.style.display = "block";
 }
 
 function setCheckInMood(btn, mood) {
@@ -292,7 +293,7 @@ function renderCheckInComplete(checkin) {
   el("complete-rec-message", rec.message);
   document.querySelectorAll(".tab-content").forEach(t => { t.classList.remove("active"); t.style.display = "none"; });
   const tab = document.getElementById("tab-checkin-complete");
-  tab.classList.add("active"); tab.style.display = "block";
+  tab.classList.remove("hidden"); tab.classList.add("active"); tab.style.display = "block";
 }
 
 /* ===== PROGRESS ===== */
@@ -300,14 +301,12 @@ async function loadProgress() {
   const histList = document.getElementById("history-list");
   if (histList) histList.innerHTML = `<div class="loading-row">Loading…</div>`;
   try {
-    const [workouts, checkin] = await Promise.all([
-      api("GET", "/api/workouts"),
-      api("GET", "/api/checkins/latest").catch(() => null),
-    ]);
+    const workouts = await api("GET", "/api/workouts");
+    const checkin  = await api("GET", "/api/checkins/latest").catch(() => null);
     state.allWorkouts = workouts;
 
     // Update today's recommendation title
-    if (checkin?.recommendation) el("progress-rec-title", checkin.recommendation.workout);
+    if (checkin && checkin.recommendation) el("progress-rec-title", checkin.recommendation.workout);
 
     renderWeeklySummary(workouts);
     renderWeekChart(workouts);
@@ -357,12 +356,12 @@ function setRing(id, frac, circ) {
 }
 
 function calcStreak(workouts) {
-  const days = new Set(workouts.map(w => w.timestamp.slice(0,10)));
+  const days = workouts.map(w => w.timestamp.slice(0,10));
   let streak = 0;
   const d = new Date();
   while (streak < 30) {
     const key = d.toISOString().slice(0,10);
-    if (!days.has(key)) break;
+    if (days.indexOf(key) === -1) break;
     streak++;
     d.setDate(d.getDate()-1);
   }
@@ -459,6 +458,7 @@ function performSearch(query) {
     ex.name.toLowerCase().includes(q) ||
     ex.category.toLowerCase().includes(q) ||
     ex.desc.toLowerCase().includes(q) ||
+    ex.level.toLowerCase().includes(q) ||
     ex.tags.some(t => t.includes(q))
   );
   document.getElementById("search-content").classList.add("hidden");
@@ -552,10 +552,8 @@ function startFromModal() {
 async function loadNutrition() {
   const today = new Date().toISOString().slice(0,10);
   try {
-    const [meals, workouts] = await Promise.all([
-      api("GET", `/api/meals?date=${today}`),
-      api("GET", "/api/workouts"),
-    ]);
+    const meals    = await api("GET", `/api/meals?date=${today}`);
+    const workouts = await api("GET", "/api/workouts");
     const todayWorkouts = workouts.filter(w => w.timestamp.startsWith(today));
     renderNutrition(meals, todayWorkouts);
   } catch(e) {
@@ -731,7 +729,7 @@ function startWorkout() {
   document.querySelectorAll(".tab-content").forEach(t => { t.classList.remove("active"); t.style.display = "none"; });
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   const tab = document.getElementById("tab-workout");
-  tab.classList.add("active"); tab.style.display = "block";
+  tab.classList.remove("hidden"); tab.classList.add("active"); tab.style.display = "block";
 
   state.currentExerciseIndex = 0;
   state.totalElapsed = 0;
@@ -825,16 +823,16 @@ function updateExerciseDisplay() {
   el("current-exercise",    exercises[i].name);
   el("current-instruction", exercises[i].instruction);
   el("timer-exercise",      exercises[i].name);
-  el("prev-exercise",       exercises[i-1]?.name || "—");
-  el("next-step",           exercises[i+1]?.step || "");
-  el("next-exercise",       exercises[i+1]?.name || "Workout complete");
+  el("prev-exercise",       i > 0 ? exercises[i-1].name : "—");
+  el("next-step",           i < exercises.length - 1 ? exercises[i+1].step : "");
+  el("next-exercise",       i < exercises.length - 1 ? exercises[i+1].name : "Workout complete");
 }
 
 function updateTimerDisplay() {
   const m = Math.floor(state.exerciseTimeLeft/60), s = state.exerciseTimeLeft%60;
-  el("timer-display", `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`);
+  el("timer-display", `${m < 10 ? "0" + m : m}:${s < 10 ? "0" + s : s}`);
   const tm = Math.floor(state.totalElapsed/60), ts = state.totalElapsed%60;
-  el("total-time", `${tm}:${String(ts).padStart(2,"0")}`);
+  el("total-time", `${tm}:${ts < 10 ? "0" + ts : ts}`);
 }
 
 function updateTimerProgress() {
@@ -860,10 +858,19 @@ function closeFilter(e) { if (e.target === document.getElementById("filter-modal
 function closeFilterPanel() { document.getElementById("filter-modal").classList.add("hidden"); }
 function toggleFilter(btn) { btn.classList.toggle("selected"); }
 function resetFilters() { document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("selected")); }
+const FILTER_MAP = {
+  "no equipment needed": "no equipment",
+  "equipment needed":    "equipment",
+};
+
 function applyFilters() {
-  const sel = [...document.querySelectorAll(".filter-chip.selected")].map(c => c.textContent.trim());
+  const sel = [...document.querySelectorAll(".filter-chip.selected")].map(c => c.textContent.trim().toLowerCase());
   closeFilterPanel();
-  if (sel.length) { doSearch(sel[0]); document.getElementById("exercise-search").value = sel[0]; document.getElementById("clear-search-btn").style.display = "block"; }
+  if (!sel.length) return;
+  const term = FILTER_MAP[sel[0]] || sel[0];
+  doSearch(term);
+  document.getElementById("exercise-search").value = term;
+  document.getElementById("clear-search-btn").style.display = "block";
 }
 
 /* ===== HELPERS ===== */
@@ -876,14 +883,23 @@ function showToast(msg) {
   let t = document.getElementById("toast");
   if (!t) {
     t = document.createElement("div"); t.id = "toast";
-    Object.assign(t.style, {
-      position:"fixed", bottom:"32px", left:"50%", transform:"translateX(-50%)",
-      background:"#1E1E28", border:"1px solid #2A2A38", color:"#F8F8FF",
-      padding:"12px 24px", borderRadius:"10px", fontSize:"14px", fontWeight:"500",
-      zIndex:"9999", boxShadow:"0 8px 32px rgba(0,0,0,0.5)", opacity:"0",
-      transition:"opacity 300ms ease, transform 300ms ease",
-      fontFamily:"'Inter',system-ui,sans-serif", whiteSpace:"nowrap",
-    });
+    t.style.position = "fixed";
+    t.style.bottom = "32px";
+    t.style.left = "50%";
+    t.style.transform = "translateX(-50%)";
+    t.style.background = "#1E1E28";
+    t.style.border = "1px solid #2A2A38";
+    t.style.color = "#F8F8FF";
+    t.style.padding = "12px 24px";
+    t.style.borderRadius = "10px";
+    t.style.fontSize = "14px";
+    t.style.fontWeight = "500";
+    t.style.zIndex = "9999";
+    t.style.boxShadow = "0 8px 32px rgba(0,0,0,0.5)";
+    t.style.opacity = "0";
+    t.style.transition = "opacity 300ms ease, transform 300ms ease";
+    t.style.fontFamily = "'Inter',system-ui,sans-serif";
+    t.style.whiteSpace = "nowrap";
     document.body.appendChild(t);
   }
   t.textContent = msg;

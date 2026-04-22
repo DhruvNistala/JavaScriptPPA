@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-04-22T12:00:00.000Z",
+    "name": "Avocado Toast",
+    "kcal": 200,
+    "type": "breakfast"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-04-22T17:00:00.000Z",
+    "name": "Chicken Bowl",
+    "kcal": 750,
+    "type": "lunch"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-04-22T08:15:55.755Z",
+    "name": "Chicken Protein Bowl",
+    "kcal": 725,
+    "type": "lunch"
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-04-22T08:15:56.618Z",
+    "name": "Chicken Protein Bowl",
+    "kcal": 725,
+    "type": "lunch"
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-04-22T08:15:57.271Z",
+    "name": "Chicken Protein Bowl",
+    "kcal": 725,
+    "type": "lunch"
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-04-22T08:15:58.627Z",
+    "name": "Roasted Chicken & Veg",
+    "kcal": 625,
+    "type": "dinner"
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-04-22T08:15:58.822Z",
+    "name": "Roasted Chicken & Veg",
+    "kcal": 625,
+    "type": "dinner"
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-04-22T08:15:58.990Z",
+    "name": "Roasted Chicken & Veg",
+    "kcal": 625,
+    "type": "dinner"
+  }
+]

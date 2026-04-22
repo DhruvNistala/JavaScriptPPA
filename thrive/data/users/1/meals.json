@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-04-16T07:30:00.000Z",
+    "name": "Avocado Toast",
+    "kcal": 200,
+    "type": "breakfast"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-04-16T12:30:00.000Z",
+    "name": "Chicken Bowl",
+    "kcal": 750,
+    "type": "lunch"
+  }
+]

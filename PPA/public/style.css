@@ -43,12 +43,13 @@ font-weight: bold;
 margin-bottom: 6px;
 }
 .slotItem {
-border: 1px solid #ddd;
-padding: 4px;
-margin-bottom: 4px;
-display: flex;
-justify-content: space-between;
-gap: 6px;
+	border: 1px solid #ddd;
+	padding: 4px;
+	margin-bottom: 4px;
+	display: flex;
+	justify-content: space-between;
+	gap: 6px;
+	cursor: pointer;
 }
 /* Message styles controlled by className in JavaScript */
 .ok {
@@ -66,4 +67,13 @@ outline: 3px solid #1976d2;
 .free {
   border-color: green;
   border-width: 5px;
+}
+
+#appointmentModal {
+  padding: 16px;
+}
+
+#appointmentModal label {
+  display: block;
+  margin-bottom: 8px;
 }

@@ -1,0 +1,13 @@
+{
+  "name": "John Smith",
+  "age": 35,
+  "sex": "male",
+  "weight": 180,
+  "height": 70,
+  "condition": "migraine",
+  "medication": "Botox",
+  "goals": [
+    "Sleep Well",
+    "Stay Active"
+  ]
+}

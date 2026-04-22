@@ -1,8 +1,9 @@
 // public/provider.js
 // Provider calendar UI for PPA 5
-// GET and POST only
-let currentMonth = 2; // 1 to 12
+// CRUD calendar UI
+let currentMonth = 3; // 1 to 12
 let currentYear = 2026;
+let allSlots = [];
 // Run once when the page loads
 refreshCalendar();
 // Show a user facing message
@@ -17,8 +18,8 @@ function refreshCalendar() {
   xhr.open("GET", "/api/slots");
   xhr.onload = function () {
     if (xhr.status === 200) {
-      const rawSlots = JSON.parse(xhr.responseText);
-      renderCalendar(rawSlots);
+      allSlots = JSON.parse(xhr.responseText);
+      renderCalendar(allSlots);
     } else {
       showMessage("GET failed " + String(xhr.status), "error");
     }
@@ -34,6 +35,7 @@ function renderCalendar(rawSlots) {
   const firstDay = new Date(currentYear, currentMonth - 1, 1);
   const startWeekday = firstDay.getDay(); // 0 Sunday to 6 Saturday
   const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+  const now = new Date();
   for (let i = 0; i < 42; i += 1) {
     const dayNumber = i - startWeekday + 1;
     const cell = document.createElement("div");
@@ -44,19 +46,24 @@ function renderCalendar(rawSlots) {
       label.className = "dayNumber";
       label.textContent = String(dayNumber);
       cell.appendChild(label);
-      slotCount = 0;
+      let slotCount = 0;
 
-      const now = new Date();
-      if (dayNumber === now.getDate()) {
+      if (
+        dayNumber === now.getDate() &&
+        currentMonth === now.getMonth() + 1 &&
+        currentYear === now.getFullYear()
+      ) {
         cell.classList.add("today");
       }
       // Insert all matching slots for this day
       for (let j = 0; j < rawSlots.length; j += 1) {
         const slot = rawSlots[j];
-        // Extract yyyy-mm-dd and compare the day number
-        const datePart = slot.startTime.split("T")[0];
-        const slotDay = Number(datePart.split("-")[2]);
-        if (slotDay === dayNumber) {
+        const slotDate = new Date(slot.startTime);
+        if (
+          slotDate.getFullYear() === currentYear &&
+          slotDate.getMonth() === currentMonth - 1 &&
+          slotDate.getDate() === dayNumber
+        ) {
           slotCount += 1;
           const item = document.createElement("div");
           item.className = "slotItem";
@@ -64,8 +71,11 @@ function renderCalendar(rawSlots) {
           const startClock = slot.startTime.split("T")[1];
           const endClock = slot.endTime.split("T")[1];
           const text = document.createElement("span");
-          text.textContent = startClock + " to " + endClock;
+          text.textContent = startClock + " to " + endClock + " (" + slot.status + ")";
           item.appendChild(text);
+          item.addEventListener("click", function () {
+            openAppointmentModal(slot);
+          });
           cell.appendChild(item);
         }
       }
@@ -119,3 +129,33 @@ document.getElementById("createSlotButton").addEventListener("click",
     const endTime = document.getElementById("endTimeInput").value;
     sendCreateSlot(startTime, endTime);
   });
+
+document.getElementById("prevMonthButton").addEventListener("click", function () {
+  currentMonth -= 1;
+  if (currentMonth === 0) {
+    currentMonth = 12;
+    currentYear -= 1;
+  }
+  renderCalendar(allSlots);
+});
+
+document.getElementById("nextMonthButton").addEventListener("click", function () {
+  currentMonth += 1;
+  if (currentMonth === 13) {
+    currentMonth = 1;
+    currentYear += 1;
+  }
+  renderCalendar(allSlots);
+});
+
+document.getElementById("saveAppointmentButton").addEventListener("click", function () {
+  saveAppointmentChanges();
+});
+
+document.getElementById("deleteAppointmentButton").addEventListener("click", function () {
+  deleteButtonHandler();
+});
+
+document.getElementById("closeAppointmentButton").addEventListener("click", function () {
+  document.getElementById("appointmentModal").close();
+});

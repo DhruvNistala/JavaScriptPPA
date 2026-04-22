@@ -1,0 +1,9 @@
+{
+  "name": "thrive",
+  "version": "1.0.0",
+  "description": "Digital fitness and disease management platform for chronic condition patients",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thrive — Digital Fitness &amp; Disease Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+<!-- ===================== WELCOME ===================== -->
+<div class="screen fullscreen" id="screen-welcome">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card welcome-card">
+    <div class="logo-mark">
+      <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke="#3B82F6" stroke-width="2" fill="none"/>
+        <circle cx="24" cy="24" r="8" fill="#3B82F6" opacity="0.25"/>
+        <circle cx="24" cy="24" r="4" fill="#3B82F6"/>
+        <path d="M24 6L24 14M24 34L24 42M6 24L14 24M34 24L42 24" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="logo-text">THRIVE</p>
+    <h1 class="welcome-title">Welcome to Thrive</h1>
+    <p class="welcome-sub">Your digital fitness and disease management platform</p>
+    <button class="btn-primary" onclick="showScreen('screen-onboard-1')">Get Started</button>
+    <button class="btn-ghost" onclick="showScreen('screen-login')">Sign In</button>
+  </div>
+</div>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="screen fullscreen hidden" id="screen-login">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card form-card">
+    <div class="logo-text small">THRIVE</div>
+    <h2 class="onboard-title">Welcome back</h2>
+    <p class="form-subtitle">Sign in to continue your health journey</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')loginUser()">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')loginUser()">
+    </div>
+    <p class="auth-error hidden" id="login-error"></p>
+    <button class="btn-primary full-width" id="login-btn" onclick="loginUser()">Sign In</button>
+    <p class="auth-link">Don't have an account? <button class="text-btn" onclick="showScreen('screen-welcome')">Get started</button></p>
+  </div>
+</div>
+
+<!-- ===================== ONBOARDING 1 ===================== -->
+<div class="screen fullscreen hidden" id="screen-onboard-1">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card">
+    <div class="logo-text small">THRIVE</div>
+    <div class="onboard-illustration">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <rect x="20" y="15" width="80" height="90" rx="8" fill="#1A1A2E" stroke="#3B82F6" stroke-width="1.5"/>
+        <rect x="30" y="30" width="60" height="8" rx="4" fill="#3B82F6" opacity="0.6"/>
+        <rect x="30" y="44" width="45" height="6" rx="3" fill="#374151"/>
+        <rect x="30" y="56" width="55" height="6" rx="3" fill="#374151"/>
+        <rect x="30" y="68" width="40" height="6" rx="3" fill="#374151"/>
+        <circle cx="85" cy="85" r="16" fill="#3B82F6" opacity="0.15" stroke="#3B82F6" stroke-width="1.5"/>
+        <path d="M79 85L83 89L91 81" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2 class="onboard-title">The digital prescription</h2>
+    <p class="onboard-body">Access individualized exercise and nutrition plans tailored to your specific chronic condition and daily fatigue state using evidence-based research.</p>
+    <div class="dot-nav"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-welcome')">Back</button>
+      <button class="btn-primary" onclick="showScreen('screen-onboard-2')">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ONBOARDING 2 ===================== -->
+<div class="screen fullscreen hidden" id="screen-onboard-2">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card">
+    <div class="logo-text small">THRIVE</div>
+    <div class="onboard-illustration">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <rect x="35" y="20" width="50" height="80" rx="12" fill="#1A1A2E" stroke="#3B82F6" stroke-width="1.5"/>
+        <circle cx="60" cy="36" r="8" stroke="#3B82F6" stroke-width="1.5" fill="none"/>
+        <circle cx="60" cy="36" r="3" fill="#3B82F6"/>
+        <path d="M30 65Q45 55 60 65Q75 75 90 65" stroke="#3B82F6" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M30 75Q45 65 60 75Q75 85 90 75" stroke="#3B82F6" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+    </div>
+    <h2 class="onboard-title">Real time adaptation</h2>
+    <p class="onboard-body">Thrive syncs with your wearables to monitor your vitals in real time. Your program automatically adapts to your energy levels and symptoms, ensuring every workout is both safe and effective.</p>
+    <div class="dot-nav"><span class="dot"></span><span class="dot active"></span><span class="dot"></span></div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-onboard-1')">Back</button>
+      <button class="btn-primary" onclick="showScreen('screen-onboard-3')">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ONBOARDING 3 ===================== -->
+<div class="screen fullscreen hidden" id="screen-onboard-3">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card">
+    <div class="logo-text small">THRIVE</div>
+    <div class="onboard-illustration">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="35" stroke="#3B82F6" stroke-width="1.5" fill="none" opacity="0.3"/>
+        <circle cx="60" cy="60" r="25" stroke="#3B82F6" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <circle cx="60" cy="60" r="15" fill="#3B82F6" opacity="0.15"/>
+        <path d="M55 60L58 64L66 56" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2 class="onboard-title">Completely personalized</h2>
+    <p class="onboard-body">Whether you need chair-based routines for joint protection or high-intensity protocols for metabolic health, we provide guided video sessions that meet you exactly where your mobility is today.</p>
+    <div class="dot-nav"><span class="dot"></span><span class="dot"></span><span class="dot active"></span></div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-onboard-2')">Back</button>
+      <button class="btn-primary" onclick="showScreen('screen-personal-info')">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PERSONAL INFO ===================== -->
+<div class="screen fullscreen hidden" id="screen-personal-info">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card form-card">
+    <div class="logo-text small">THRIVE</div>
+    <h2 class="onboard-title">Let us know You</h2>
+    <p class="form-subtitle">Please provide the required information</p>
+    <div class="form-group">
+      <label>Age</label>
+      <input type="number" id="input-age" placeholder="Enter your age" min="1" max="120">
+    </div>
+    <div class="form-group">
+      <label>Sex</label>
+      <select id="input-sex">
+        <option value="" disabled selected>Select your sex</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other / Prefer not to say</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Weight</label>
+        <div class="input-unit"><input type="number" id="input-weight" placeholder="0" min="1"><span class="unit">lb</span></div>
+      </div>
+      <div class="form-group">
+        <label>Height</label>
+        <div class="input-unit"><input type="number" id="input-height" placeholder="0" min="1"><span class="unit">ft</span></div>
+      </div>
+    </div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-onboard-3')">Back</button>
+      <button class="btn-primary" onclick="savePersonalInfo()">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HEALTH CONDITION ===================== -->
+<div class="screen fullscreen hidden" id="screen-health-condition">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card form-card">
+    <div class="logo-text small">THRIVE</div>
+    <h2 class="onboard-title">Health Condition</h2>
+    <p class="form-subtitle">Please provide the required information</p>
+    <div class="form-group">
+      <label>Condition</label>
+      <select id="input-condition">
+        <option value="migraine" selected>Migraine</option>
+        <option value="hypertension">Hypertension</option>
+        <option value="diabetes">Type 2 Diabetes</option>
+        <option value="arthritis">Arthritis</option>
+        <option value="copd">COPD</option>
+        <option value="heart-disease">Heart Disease</option>
+        <option value="fibromyalgia">Fibromyalgia</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Current Medication</label>
+      <input type="text" id="input-medication" placeholder="Enter current medications">
+    </div>
+    <div class="condition-note">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#3B82F6" stroke-width="1.2"/><path d="M8 7V11M8 5.5V5" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Your program will be tailored to safely work around your condition.</span>
+    </div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-personal-info')">Back</button>
+      <button class="btn-primary" onclick="showScreen('screen-goals')">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GOALS ===================== -->
+<div class="screen fullscreen hidden" id="screen-goals">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card form-card">
+    <div class="logo-text small">THRIVE</div>
+    <h2 class="onboard-title">Your Goals</h2>
+    <p class="form-subtitle">Please choose as many as you want</p>
+    <div class="goals-grid">
+      <button class="goal-chip" onclick="toggleGoal(this,'Lower Blood Pressure')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3C9 3 3 7 3 11C3 13.2 5.8 15 9 15C12.2 15 15 13.2 15 11C15 7 9 3 9 3Z" stroke="currentColor" stroke-width="1.5"/></svg>Lower Blood Pressure</button>
+      <button class="goal-chip" onclick="toggleGoal(this,'Lose Weight')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 4L11.5 8.5H14L10.5 11.5L12 15.5L9 13L6 15.5L7.5 11.5L4 8.5H6.5L9 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Lose Weight</button>
+      <button class="goal-chip" onclick="toggleGoal(this,'Improve Walking')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="4" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 6L7 10L9 9L11 13M7 10L5 14M11 13L13 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Improve Walking</button>
+      <button class="goal-chip" onclick="toggleGoal(this,'Sleep Well')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4C5.5 4.8 4.5 6.3 4.5 8C4.5 10.5 6.5 12.5 9 12.5C10.7 12.5 12.2 11.5 13 10C12.5 10.2 11.9 10.3 11.3 10.3C8.8 10.3 6.8 8.3 7 4Z" stroke="currentColor" stroke-width="1.5"/></svg>Sleep Well</button>
+      <button class="goal-chip" onclick="toggleGoal(this,'Build Strength')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9H5M13 9H15M5 9C5 9 5.5 6 9 6C12.5 6 13 9 13 9C13 9 12.5 12 9 12C5.5 12 5 9 5 9Z" stroke="currentColor" stroke-width="1.5"/></svg>Build Strength</button>
+      <button class="goal-chip" onclick="toggleGoal(this,'Others')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="4" cy="9" r="1.5" fill="currentColor"/><circle cx="14" cy="9" r="1.5" fill="currentColor"/></svg>Others</button>
+    </div>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-health-condition')">Back</button>
+      <button class="btn-primary" onclick="showScreen('screen-create-account')">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CREATE ACCOUNT ===================== -->
+<div class="screen fullscreen hidden" id="screen-create-account">
+  <div class="welcome-bg"></div>
+  <div class="onboard-card form-card">
+    <div class="logo-text small">THRIVE</div>
+    <h2 class="onboard-title">Create your account</h2>
+    <p class="form-subtitle">Almost there — set up your login credentials</p>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="John Smith">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="reg-email" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="reg-password" placeholder="At least 6 characters">
+    </div>
+    <p class="auth-error hidden" id="register-error"></p>
+    <div class="onboard-actions">
+      <button class="btn-secondary" onclick="showScreen('screen-goals')">Back</button>
+      <button class="btn-primary" id="register-btn" onclick="registerUser()">Sign Up</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MAIN APP ===================== -->
+<div class="screen app-layout hidden" id="screen-app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="26" height="26" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke="#3B82F6" stroke-width="2" fill="none"/>
+        <circle cx="24" cy="24" r="8" fill="#3B82F6" opacity="0.25"/>
+        <circle cx="24" cy="24" r="4" fill="#3B82F6"/>
+        <path d="M24 6L24 14M24 34L24 42M6 24L14 24M34 24L42 24" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>THRIVE</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-dashboard" onclick="switchTab('dashboard')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H13V13H7V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Home</span>
+      </button>
+      <button class="nav-item" id="nav-progress" onclick="switchTab('progress')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 15L7 9L10 12L13 7L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="15" width="14" height="1" rx="0.5" fill="currentColor"/></svg><span>Progress</span>
+      </button>
+      <button class="nav-item" id="nav-search" onclick="switchTab('search')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Search</span>
+      </button>
+      <button class="nav-item" id="nav-nutrition" onclick="switchTab('nutrition')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3C7 3 4 6 4 10C4 13.3 6.7 16 10 16C13.3 16 16 13.3 16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 3C13 3 14 5 14 7C14 9 13 10 13 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 3L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Nutrition</span>
+      </button>
+      <button class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17C3 14 6.1 12 10 12C13.9 12 17 14 17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Profile</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="device-indicator"><span class="device-dot"></span><span>Apple Watch Active</span></div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="greeting" id="greeting-text">Good morning,</h1>
+          <h2 class="user-name" id="user-name-display">—</h2>
+          <p class="page-date" id="page-date">—</p>
+        </div>
+        <button class="checkin-btn" onclick="showCheckIn()">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3V9L12 11" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.5"/></svg>
+          Daily Check-in
+        </button>
+      </div>
+      <div class="dashboard-grid">
+        <!-- Check-in card -->
+        <div class="card checkin-card">
+          <h3>Daily Check-in</h3>
+          <p class="card-sub">How are you feeling today?</p>
+          <div class="mood-row">
+            <button class="mood-btn active" onclick="setMood(this,'good')">Good</button>
+            <button class="mood-btn" onclick="setMood(this,'okay')">Okay</button>
+            <button class="mood-btn" onclick="setMood(this,'tired')">Tired</button>
+            <button class="mood-btn" onclick="setMood(this,'other')">Other</button>
+          </div>
+          <button class="btn-primary small" onclick="showCheckIn()">Check in</button>
+        </div>
+        <!-- Recommendation card -->
+        <div class="card recommendation-card">
+          <div class="rec-header">
+            <div>
+              <p class="rec-label">Recommendation</p>
+              <h3 class="rec-title" id="dash-rec-title">Cardio &amp; Strength</h3>
+            </div>
+            <button class="btn-primary small" onclick="startWorkout()">Start Workout</button>
+          </div>
+          <div class="workout-tags" id="dash-rec-tags">
+            <span class="tag">30 min</span><span class="tag">Moderate</span>
+          </div>
+          <div class="workout-steps" id="dash-rec-message">
+            <div class="step"><span class="step-dot"></span>Loading your recommendation…</div>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="card stats-card">
+          <div class="stat-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L10.5 8.5H15L11 11.5L12.5 17L10 14.5L7.5 17L9 11.5L5 8.5H9.5L10 3Z" fill="#F59E0B" opacity="0.8"/></svg>
+            <div><p class="stat-value" id="dash-kcal">—</p><p class="stat-label">Kcal Burned (week)</p></div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="2" rx="1" fill="#3B82F6" opacity="0.5"/><rect x="8" y="5" width="4" height="10" rx="1" fill="#3B82F6" opacity="0.8"/></svg>
+            <div><p class="stat-value" id="dash-workouts">—</p><p class="stat-label">Workouts (week)</p></div>
+          </div>
+        </div>
+        <!-- Refuel card -->
+        <div class="card refuel-card">
+          <div class="refuel-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C8.7 3 6 5.7 6 9C6 12.3 8.7 15 11 15C15.3 15 16 12.3 16 9C16 5.7 13.3 3 11 3Z" stroke="#10B981" stroke-width="1.5"/><path d="M8 19C8 19 9 17 11 17C13 17 14 19 14 19" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="refuel-label">Refuel Strategy</p>
+            <p class="refuel-text">Post-session protein synthesis peaks at 45 minutes. Optimize recovery with 30g of protein and 50g of complex carbohydrates.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DAILY CHECK-IN ===== -->
+    <div class="tab-content hidden" id="tab-checkin">
+      <div class="page-header">
+        <button class="back-btn" onclick="switchTab('dashboard')"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L5 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Back</button>
+        <h1 class="page-title">Daily Check-in</h1>
+      </div>
+      <div class="checkin-layout">
+        <div class="card checkin-full">
+          <h3>How are you feeling today?</h3>
+          <div class="mood-row large">
+            <button class="mood-btn" onclick="setCheckInMood(this,'good')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7 13C7 13 8.5 15 11 15C13.5 15 15 13 15 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="9" r="1.2" fill="currentColor"/><circle cx="14" cy="9" r="1.2" fill="currentColor"/></svg>Good</button>
+            <button class="mood-btn" onclick="setCheckInMood(this,'okay')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 14H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="9" r="1.2" fill="currentColor"/><circle cx="14" cy="9" r="1.2" fill="currentColor"/></svg>Okay</button>
+            <button class="mood-btn" onclick="setCheckInMood(this,'tired')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8 15C8 15 9 13 11 13C13 13 14 15 14 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 9H9M13 9H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Tired</button>
+            <button class="mood-btn" onclick="setCheckInMood(this,'other')"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="11" r="1" fill="currentColor"/><circle cx="11" cy="11" r="1" fill="currentColor"/><circle cx="14" cy="11" r="1" fill="currentColor"/></svg>Other</button>
+          </div>
+          <div class="slider-section">
+            <h4>Rate Your Levels</h4>
+            <div class="slider-row">
+              <div class="slider-group">
+                <div class="slider-header"><span>Pain</span><span class="slider-value" id="pain-val">3</span></div>
+                <input type="range" class="styled-slider" id="pain-slider" min="0" max="10" value="3" oninput="updateSlider('pain')">
+                <div class="slider-labels"><span>0 = none</span><span>10 = severe</span></div>
+              </div>
+              <div class="slider-group">
+                <div class="slider-header"><span>Fatigue</span><span class="slider-value" id="fatigue-val">7</span></div>
+                <input type="range" class="styled-slider" id="fatigue-slider" min="0" max="10" value="7" oninput="updateSlider('fatigue')">
+                <div class="slider-labels"><span>0 = none</span><span>10 = severe</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="symptoms-section">
+            <h4>Any symptoms today?</h4>
+            <div class="symptoms-grid">
+              <label class="symptom-check"><input type="checkbox" value="shortness-of-breath"><span>Shortness of breath</span></label>
+              <label class="symptom-check"><input type="checkbox" value="chest-discomfort"><span>Chest discomfort</span></label>
+              <label class="symptom-check"><input type="checkbox" value="dizziness"><span>Dizziness</span></label>
+              <label class="symptom-check"><input type="checkbox" value="swelling"><span>Swelling</span></label>
+              <label class="symptom-check"><input type="checkbox" value="nausea"><span>Nausea</span></label>
+              <label class="symptom-check"><input type="checkbox" value="none" id="symptom-none"><span>None of the Above</span></label>
+            </div>
+          </div>
+          <div class="notes-section">
+            <h4>Additional notes <span class="optional">(optional)</span></h4>
+            <textarea id="checkin-notes" placeholder="Add any additional information…" rows="3"></textarea>
+          </div>
+          <button class="btn-primary full-width" id="checkin-submit-btn" onclick="submitCheckIn()">Submit Check-in</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHECK-IN COMPLETE ===== -->
+    <div class="tab-content hidden" id="tab-checkin-complete">
+      <div class="checkin-complete-wrap">
+        <div class="card complete-card">
+          <div class="complete-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="#3B82F6" opacity="0.12" stroke="#3B82F6" stroke-width="1.5"/><path d="M15 24L21 30L33 18" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h2>Check in Complete</h2>
+          <p class="complete-sub">Your symptoms have been recorded.</p>
+          <p class="complete-body">Your exercise program has been adjusted based on today's report.</p>
+          <div class="recommendation-box">
+            <p class="rec-label" id="complete-rec-workout">Recommendation</p>
+            <p id="complete-rec-message">Generating your personalised recommendation…</p>
+          </div>
+          <button class="btn-primary" onclick="switchTab('dashboard')">Back to Dashboard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROGRESS ===== -->
+    <div class="tab-content hidden" id="tab-progress">
+      <div class="page-header"><h1 class="page-title">My Progress</h1></div>
+      <div class="progress-layout">
+        <div class="progress-left">
+          <!-- Weekly goal ring -->
+          <div class="card">
+            <h3>Current Program</h3>
+            <div class="program-goal">
+              <div class="goal-info"><p class="goal-label">Weekly Goal</p><p class="goal-value">150 min</p></div>
+              <div class="goal-progress-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="#2A2A35" stroke-width="8"/>
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="#3B82F6" stroke-width="8" stroke-linecap="round"
+                    stroke-dasharray="201.06" stroke-dashoffset="201.06" transform="rotate(-90 40 40)" id="weekly-progress-ring" style="transition:stroke-dashoffset 800ms ease"/>
+                </svg>
+                <div class="ring-label" id="weekly-goal-pct-label">0%</div>
+              </div>
+            </div>
+          </div>
+          <!-- Weekly summary stats -->
+          <div class="card">
+            <h3>Weekly Summary</h3>
+            <div class="summary-grid">
+              <div class="summary-stat">
+                <div class="summary-ring">
+                  <svg width="64" height="64" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#2A2A35" stroke-width="6"/>
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#3B82F6" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="163.4" stroke-dashoffset="163.4" transform="rotate(-90 32 32)" id="ring-workouts" style="transition:stroke-dashoffset 800ms ease"/>
+                  </svg>
+                  <div class="ring-val"><span id="summary-workouts">0</span><span id="summary-workouts-den">/5</span></div>
+                </div>
+                <p>Workouts</p>
+              </div>
+              <div class="summary-stat">
+                <div class="summary-ring">
+                  <svg width="64" height="64" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#2A2A35" stroke-width="6"/>
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#3B82F6" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="163.4" stroke-dashoffset="163.4" transform="rotate(-90 32 32)" id="ring-minutes" style="transition:stroke-dashoffset 800ms ease"/>
+                  </svg>
+                  <div class="ring-val"><span id="summary-minutes">0</span><span>/150</span></div>
+                </div>
+                <p>Minutes</p>
+              </div>
+              <div class="summary-stat">
+                <div class="summary-ring">
+                  <svg width="64" height="64" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#2A2A35" stroke-width="6"/>
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#10B981" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="163.4" stroke-dashoffset="163.4" transform="rotate(-90 32 32)" id="ring-kcal" style="transition:stroke-dashoffset 800ms ease"/>
+                  </svg>
+                  <div class="ring-val"><span id="summary-kcal">0</span></div>
+                </div>
+                <p>Kcal Burned</p>
+              </div>
+              <div class="summary-stat">
+                <div class="summary-ring">
+                  <svg width="64" height="64" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#2A2A35" stroke-width="6"/>
+                    <circle cx="32" cy="32" r="26" fill="none" stroke="#F59E0B" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="163.4" stroke-dashoffset="163.4" transform="rotate(-90 32 32)" id="ring-streak" style="transition:stroke-dashoffset 800ms ease"/>
+                  </svg>
+                  <div class="ring-val"><span id="summary-streak">0</span><span>/7</span></div>
+                </div>
+                <p>Streak Days</p>
+              </div>
+            </div>
+          </div>
+          <!-- Weekly bar chart -->
+          <div class="card">
+            <h3>Activity This Week</h3>
+            <div id="week-bar-chart" class="week-chart"></div>
+          </div>
+        </div>
+        <div class="progress-right">
+          <!-- Today's workout -->
+          <div class="card">
+            <h3>Today's Workout</h3>
+            <div class="todays-workout">
+              <div class="workout-info">
+                <p class="workout-type" id="progress-rec-title">Cardio &amp; Strength</p>
+                <div class="workout-meta"><span class="tag">30 minutes</span><span class="tag">Moderate intensity</span></div>
+              </div>
+              <button class="btn-primary small" onclick="startWorkout()">Start</button>
+            </div>
+            <div class="workout-breakdown">
+              <div class="breakdown-item"><span class="bd-dot blue"></span><span>Warm-up (5 min)</span></div>
+              <div class="breakdown-item"><span class="bd-dot blue"></span><span>Walking intervals (15 min)</span></div>
+              <div class="breakdown-item"><span class="bd-dot blue"></span><span>Resistance exercises (10 min)</span></div>
+            </div>
+          </div>
+          <!-- Exercise history -->
+          <div class="card">
+            <div class="history-header">
+              <h3>Exercise History</h3>
+              <input type="text" class="search-small" placeholder="filter history…" oninput="filterHistory(this.value)">
+            </div>
+            <div class="history-list" id="history-list"><div class="loading-row">Loading…</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SEARCH ===== -->
+    <div class="tab-content hidden" id="tab-search">
+      <div class="page-header">
+        <h1 class="page-title">Exercise Library</h1>
+        <button class="filter-btn" onclick="showFilter()">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4H16M5 9H13M8 14H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Filter
+        </button>
+      </div>
+      <div class="search-bar-wrap">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5" stroke="#6B7280" stroke-width="1.5"/><path d="M12 12L16 16" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="exercise-search" placeholder="search exercises…" oninput="handleSearch(this.value)">
+        <button class="clear-search" onclick="clearSearch()" id="clear-search-btn" style="display:none">✕</button>
+      </div>
+      <div id="search-content">
+        <div class="search-section" id="recent-section">
+          <div class="section-header"><h4>Recent searches</h4><button class="text-btn" onclick="clearHistory()">Clear history</button></div>
+          <div class="recent-tags" id="recent-tags">
+            <span class="recent-tag" onclick="doSearch('heart exercise')">heart exercise</span>
+            <span class="recent-tag" onclick="doSearch('hypertension focused')">hypertension focused</span>
+            <span class="recent-tag" onclick="doSearch('low intensity')">low intensity</span>
+          </div>
+        </div>
+        <div class="search-section">
+          <div class="tab-pills">
+            <button class="pill active" onclick="setSearchTab(this,'featured')">Featured</button>
+            <button class="pill" onclick="setSearchTab(this,'new')">New</button>
+          </div>
+          <p class="section-label">Most popular</p>
+          <div class="exercise-cards-grid" id="featured-exercises">
+            <div class="exercise-card" onclick="openExerciseModal('cycling')">
+              <div class="ex-card-img strength-img"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M5 20H8M32 20H35M8 20C8 14.5 13.4 10 20 10C26.6 10 32 14.5 32 20C32 25.5 26.6 30 20 30C13.4 30 8 25.5 8 20Z" stroke="#3B82F6" stroke-width="2"/></svg></div>
+              <div class="ex-card-info"><p class="ex-category">Strength &amp; Resistance</p><p class="ex-name">Exercise Bike (Cycling)</p><p class="ex-meta">25–30 min · High · Intermediate</p><button class="btn-outline small">View</button></div>
+            </div>
+            <div class="exercise-card" onclick="openExerciseModal('yoga-yin')">
+              <div class="ex-card-img yoga-img"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="8" r="3" stroke="#10B981" stroke-width="2"/><path d="M20 11L14 18L20 16L26 18L20 11Z" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><path d="M20 16L18 26M20 16L22 26" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+              <div class="ex-card-info"><p class="ex-category">Yoga</p><p class="ex-name">Yoga Surrender (Yin)</p><p class="ex-meta">50–60 min · Low · Beginner</p><button class="btn-outline small">View</button></div>
+            </div>
+            <div class="exercise-card" onclick="openExerciseModal('heart-cardio')">
+              <div class="ex-card-img cardio-img"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 32C20 32 6 22 6 13C6 9.1 9.1 6 13 6C15.4 6 17.5 7.2 19 9C20.5 7.2 22.6 6 26 6C29.9 6 33 9.1 33 13C33 22 20 32 20 32Z" stroke="#EF4444" stroke-width="2" fill="none" opacity="0.8"/></svg></div>
+              <div class="ex-card-info"><p class="ex-category">Cardio</p><p class="ex-name">Heart Health Cardio</p><p class="ex-meta">25–35 min · Moderate · Intermediate</p><button class="btn-outline small">View</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="search-section">
+          <p class="section-label">Browse by type</p>
+          <div class="browse-grid">
+            <button class="browse-chip" onclick="doSearch('bodyweight')">Body weight</button>
+            <button class="browse-chip" onclick="doSearch('equipment')">Equipment</button>
+            <button class="browse-chip" onclick="doSearch('low intensity')">Low Intensity</button>
+            <button class="browse-chip" onclick="doSearch('high intensity')">High Intensity</button>
+            <button class="browse-chip" onclick="doSearch('yoga')">Yoga</button>
+            <button class="browse-chip" onclick="doSearch('cardio')">Cardio</button>
+            <button class="browse-chip" onclick="doSearch('strength')">Strength</button>
+            <button class="browse-chip" onclick="doSearch('balance')">Balance</button>
+          </div>
+        </div>
+      </div>
+      <div id="no-results" class="hidden no-results-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="30" cy="30" r="18" stroke="#374151" stroke-width="2"/><path d="M43 43L55 55" stroke="#374151" stroke-width="2" stroke-linecap="round"/><path d="M22 30H38" stroke="#374151" stroke-width="2" stroke-linecap="round"/></svg>
+        <p class="no-results-title">No results for "<span id="no-results-term"></span>"</p>
+        <p class="no-results-sub">Check the spelling or try a new search.</p>
+      </div>
+      <div id="search-results" class="hidden">
+        <p class="section-label">Results for "<span id="results-term"></span>"</p>
+        <div class="exercise-cards-grid" id="results-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== NUTRITION ===== -->
+    <div class="tab-content hidden" id="tab-nutrition">
+      <div class="page-header">
+        <h1 class="page-title">Nutritional Guidance</h1>
+        <p class="page-date" id="nutrition-date">—</p>
+      </div>
+      <div class="nutrition-layout">
+        <div class="nutrition-left">
+          <div class="card kcal-card">
+            <h3>Today's Kcal</h3>
+            <div class="kcal-display">
+              <div class="donut-wrap">
+                <svg width="160" height="160" viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#2A2A35" stroke-width="18"/>
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="18" stroke-linecap="round"
+                    stroke-dasharray="376.99" stroke-dashoffset="376.99" transform="rotate(-90 80 80)" id="donut-burned" style="transition:stroke-dashoffset 600ms ease"/>
+                  <circle cx="80" cy="80" r="60" fill="none" stroke="#3B82F6" stroke-width="18" stroke-linecap="round"
+                    stroke-dasharray="376.99" stroke-dashoffset="376.99" transform="rotate(-90 80 80)" id="donut-consumed" style="transition:stroke-dashoffset 600ms ease"/>
+                </svg>
+                <div class="donut-center">
+                  <p class="donut-val" id="donut-consumed-val">0</p>
+                  <p class="donut-label">/ <span id="donut-goal">1450</span> Kcal</p>
+                </div>
+              </div>
+              <div class="kcal-legend">
+                <div class="legend-item"><span class="legend-dot blue"></span><div><p class="legend-val" id="legend-consumed">0 Kcal</p><p class="legend-label">Consumed</p></div></div>
+                <div class="legend-item"><span class="legend-dot gray"></span><div><p class="legend-val" id="legend-remaining">1450 Kcal</p><p class="legend-label">Remaining</p></div></div>
+                <div class="legend-item"><span class="legend-dot orange"></span><div><p class="legend-val" id="legend-burned">0 Kcal</p><p class="legend-label">Burned</p></div></div>
+              </div>
+            </div>
+            <button class="btn-primary full-width" onclick="openMealModal()">+ Add Meal</button>
+          </div>
+          <!-- Today's logged meals -->
+          <div class="card">
+            <div class="history-header">
+              <h3>Logged Today</h3>
+              <span class="tag" id="meal-count-tag">0 meals</span>
+            </div>
+            <div id="logged-meals-list"><p class="loading-row">No meals logged yet.</p></div>
+          </div>
+        </div>
+        <div class="nutrition-right">
+          <div class="card">
+            <h3>Meal Suggestions</h3>
+            <div class="meals-list">
+              <div class="meal-item">
+                <div class="meal-icon breakfast"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 11C3 7.7 6.7 5 11 5C15.3 5 19 7.7 19 11" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/><path d="M5 14C5 14 7 17 11 17C15 17 17 14 17 14" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="meal-details">
+                  <p class="meal-label">Breakfast</p>
+                  <p class="meal-name">Avocado toast</p>
+                  <p class="meal-kcal">100–220 Kcal</p>
+                  <p class="meal-desc">Creamy avocado on well-toasted bread. Quick, nutritious and delicious.</p>
+                </div>
+                <button class="btn-outline small" onclick="quickAddMeal('Avocado Toast','breakfast',200)">+ Log</button>
+              </div>
+              <div class="meal-divider"></div>
+              <div class="meal-item">
+                <div class="meal-icon lunch"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#3B82F6" stroke-width="1.5"/><path d="M7 11C7 8.8 8.8 7 11 7C13.2 7 15 8.8 15 11" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="meal-details">
+                  <p class="meal-label">Lunch</p>
+                  <p class="meal-name">Chicken protein bowl</p>
+                  <p class="meal-kcal">650–800 Kcal</p>
+                  <p class="meal-desc">Roasted chicken with sweet potato, massaged kale and crumbled feta.</p>
+                </div>
+                <button class="btn-outline small" onclick="quickAddMeal('Chicken Protein Bowl','lunch',725)">+ Log</button>
+              </div>
+              <div class="meal-divider"></div>
+              <div class="meal-item">
+                <div class="meal-icon dinner"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 15C4 12 7.1 9 11 9C14.9 9 18 12 18 15" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/><path d="M11 9V5M8 5H14" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="meal-details">
+                  <p class="meal-label">Dinner</p>
+                  <p class="meal-name">Roasted chicken &amp; veg</p>
+                  <p class="meal-kcal">550–700 Kcal</p>
+                  <p class="meal-desc">Classic homey recipe with simple, timeless flavors.</p>
+                </div>
+                <button class="btn-outline small" onclick="quickAddMeal('Roasted Chicken & Veg','dinner',625)">+ Log</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROFILE ===== -->
+    <div class="tab-content hidden" id="tab-profile">
+      <div class="page-header">
+        <h1 class="page-title">Profile</h1>
+        <button class="btn-secondary small" id="profile-edit-btn" onclick="toggleProfileEdit()">Edit Profile</button>
+      </div>
+      <div class="profile-layout">
+        <div class="profile-left">
+          <div class="card profile-card">
+            <div class="avatar-circle" id="profile-avatar-letter">J</div>
+            <!-- View mode -->
+            <div id="profile-view-mode">
+              <h2 class="profile-name" id="profile-name-display">—</h2>
+              <div class="profile-stats">
+                <div class="profile-stat"><p class="pstat-val" id="profile-age">—</p><p class="pstat-label">Age</p></div>
+                <div class="pstat-divider"></div>
+                <div class="profile-stat"><p class="pstat-val" id="profile-weight">—</p><p class="pstat-label">Weight</p></div>
+                <div class="pstat-divider"></div>
+                <div class="profile-stat"><p class="pstat-val" id="profile-height">—</p><p class="pstat-label">Height</p></div>
+              </div>
+            </div>
+            <!-- Edit mode -->
+            <div id="profile-edit-mode" class="hidden profile-edit-form">
+              <div class="form-row">
+                <div class="form-group"><label>Full Name</label><input type="text" id="edit-name" placeholder="Full name"></div>
+                <div class="form-group"><label>Age</label><input type="number" id="edit-age" placeholder="Age" min="1" max="120"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Sex</label>
+                  <select id="edit-sex"><option value="">—</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>
+                </div>
+                <div class="form-group"><label>Weight (lb)</label><input type="number" id="edit-weight" placeholder="Weight"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Height (ft)</label><input type="number" id="edit-height" placeholder="Height" step="0.1"></div>
+                <div class="form-group"><label>Condition</label>
+                  <select id="edit-condition">
+                    <option value="">—</option><option value="migraine">Migraine</option><option value="hypertension">Hypertension</option>
+                    <option value="diabetes">Diabetes</option><option value="arthritis">Arthritis</option><option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label>Medication</label><input type="text" id="edit-medication" placeholder="Current medications"></div>
+              <div class="profile-edit-actions">
+                <button class="btn-secondary" onclick="cancelProfileEdit()">Cancel</button>
+                <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Health Conditions</h3>
+            <div class="conditions-list" id="profile-conditions">
+              <span class="loading-row" style="display:inline">Loading…</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Goals</h3>
+            <div class="conditions-list" id="profile-goals">
+              <span class="loading-row" style="display:inline">Loading…</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Connected Devices</h3>
+            <div class="device-item">
+              <div class="device-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="6" y="3" width="8" height="14" rx="3" stroke="#3B82F6" stroke-width="1.5"/><circle cx="10" cy="14" r="1.2" fill="#3B82F6"/></svg></div>
+              <div><p class="device-name">Apple Watch Series 8</p><p class="device-status active">Active</p></div>
+              <button class="text-btn" style="margin-left:auto">Manage</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-right">
+          <div class="card menu-card">
+            <div class="menu-list">
+              <button class="menu-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3H6C4.3 3 3 4.3 3 6V12C3 13.7 4.3 15 6 15H12C13.7 15 15 13.7 15 12V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 3H15V8M15 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Health Records</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              <button class="menu-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M9 6V9L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Goals &amp; Preferences</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              <button class="menu-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C9 2 4 5 4 9C4 11 5.7 14 9 14C12.3 14 14 11 14 9C14 5 9 2 9 2Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="6.5" r="0.8" fill="currentColor"/></svg><span>Notifications</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              <button class="menu-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 9H9M9 9H12M9 9V6M9 9V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Privacy &amp; Data</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              <button class="menu-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M9 12V10.5C9 9.7 9.6 9 10.4 8.7C11.2 8.4 12 7.6 12 6.5C12 5.1 10.7 4 9 4C7.3 4 6 5.1 6 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="13" r="0.8" fill="currentColor"/></svg><span>Help &amp; Support</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+              <button class="menu-item danger" onclick="logoutUser()"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 3H4C3.4 3 3 3.4 3 4V14C3 14.6 3.4 15 4 15H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 6L15 9L12 12M15 9H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sign Out</span><svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WORKOUT ACTIVE ===== -->
+    <div class="tab-content hidden" id="tab-workout">
+      <div class="page-header">
+        <button class="back-btn" onclick="endWorkout()"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L5 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>End Workout</button>
+        <h1 class="page-title">Cardio &amp; Strength</h1>
+      </div>
+      <div class="workout-layout">
+        <div class="workout-left">
+          <div class="card workout-timer-card">
+            <div class="workout-header-info">
+              <p class="workout-sub-title">Strength &amp; Resistance · Cardio</p>
+              <div class="workout-tags"><span class="tag">25–30 min total</span><span class="tag">Moderate</span><span class="tag">Intermediate</span></div>
+            </div>
+            <div class="timer-display">
+              <div class="timer-ring">
+                <svg width="200" height="200" viewBox="0 0 200 200">
+                  <circle cx="100" cy="100" r="88" fill="none" stroke="#2A2A35" stroke-width="10"/>
+                  <circle cx="100" cy="100" r="88" fill="none" stroke="#3B82F6" stroke-width="10" stroke-linecap="round"
+                    stroke-dasharray="553" stroke-dashoffset="553" transform="rotate(-90 100 100)" id="timer-progress" style="transition:stroke-dashoffset 1s linear"/>
+                </svg>
+                <div class="timer-center">
+                  <p class="timer-label">Playing</p>
+                  <p class="timer-time" id="timer-display">01:00</p>
+                  <p class="timer-exercise-name" id="timer-exercise">Warm-up</p>
+                </div>
+              </div>
+            </div>
+            <div class="workout-controls">
+              <button class="control-btn" onclick="prevExercise()"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 4L7 10L13 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 4V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Prev</button>
+              <button class="play-btn" id="play-btn" onclick="toggleWorkoutTimer()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" id="play-icon"><path d="M8 6L18 12L8 18V6Z" fill="white"/></svg></button>
+              <button class="control-btn" onclick="nextExercise()">Next<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 4V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="workout-right">
+          <div class="card workout-stats-card">
+            <div class="workout-stat-row">
+              <div class="workout-stat"><p class="wstat-label">Total time</p><p class="wstat-val" id="total-time">0:00</p></div>
+              <div class="workout-stat"><p class="wstat-label">Kcal burned</p><p class="wstat-val" id="kcal-burned">0</p></div>
+            </div>
+          </div>
+          <div class="card exercise-queue">
+            <div class="queue-item prev"><div class="queue-label">Previous</div><p class="queue-name" id="prev-exercise">—</p><p class="queue-instruction">Completed</p></div>
+            <div class="queue-item current active">
+              <div class="queue-label current-label">Current</div>
+              <p class="queue-step" id="current-step">Warm up 1/5</p>
+              <p class="queue-name current-name" id="current-exercise">Breathing Focus (60 sec)</p>
+              <p class="queue-instruction" id="current-instruction">Maintain low intensity</p>
+            </div>
+            <div class="queue-item next"><div class="queue-label next-label">Next up</div><p class="queue-step" id="next-step">Warm up 2/5</p><p class="queue-name" id="next-exercise">Lunges (30 sec)</p><p class="queue-instruction">Maintain low intensity</p></div>
+          </div>
+          <div class="card wearable-card">
+            <div class="wearable-header">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="5" y="2" width="8" height="14" rx="3" stroke="#3B82F6" stroke-width="1.5"/><circle cx="9" cy="13" r="1.2" fill="#3B82F6"/></svg>
+              <span>John's Apple Watch</span>
+              <span class="connected-badge">Connected</span>
+            </div>
+            <div class="heart-rate-display">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 16C10 16 3 11 3 6.5C3 4.6 4.6 3 6.5 3C7.7 3 8.7 3.6 9.4 4.5C9.7 4.9 10.3 4.9 10.6 4.5C11.3 3.6 12.3 3 13.5 3C15.4 3 17 4.6 17 6.5C17 11 10 16 10 16Z" fill="#EF4444" opacity="0.8"/></svg>
+              <p class="hr-value"><span id="hr-value">72</span> / <span id="hr-diastolic">46</span> bpm</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div><!-- end screen-app -->
+
+<!-- ===================== EXERCISE DETAIL MODAL ===================== -->
+<div class="modal-overlay hidden" id="exercise-modal" onclick="closeExerciseModal(event)">
+  <div class="modal-panel ex-detail-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <p class="ex-modal-category" id="ex-modal-category">Category</p>
+        <h3 id="ex-modal-name">Exercise Name</h3>
+      </div>
+      <button class="close-btn" onclick="closeExerciseModal()">✕</button>
+    </div>
+    <div class="ex-modal-body">
+      <div class="ex-modal-stats">
+        <div class="ex-modal-stat"><p class="ex-modal-stat-label">Duration</p><p class="ex-modal-stat-val" id="ex-modal-duration">—</p></div>
+        <div class="ex-modal-stat"><p class="ex-modal-stat-label">Intensity</p><p class="ex-modal-stat-val" id="ex-modal-intensity">—</p></div>
+        <div class="ex-modal-stat"><p class="ex-modal-stat-label">Level</p><p class="ex-modal-stat-val" id="ex-modal-level">—</p></div>
+      </div>
+      <p class="ex-modal-desc" id="ex-modal-desc"></p>
+      <div class="ex-modal-tags" id="ex-modal-tags"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeExerciseModal()">Close</button>
+      <button class="btn-primary" onclick="startFromModal()">Start Exercise</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD MEAL MODAL ===================== -->
+<div class="modal-overlay hidden" id="meal-modal" onclick="closeMealModal(event)">
+  <div class="modal-panel meal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header"><h3>Log a Meal</h3><button class="close-btn" onclick="closeMealModal()">✕</button></div>
+    <div class="modal-body-pad">
+      <div class="form-group"><label>Meal Type</label>
+        <select id="meal-type"><option value="breakfast">Breakfast</option><option value="lunch">Lunch</option><option value="dinner">Dinner</option><option value="snack">Snack</option></select>
+      </div>
+      <div class="form-group"><label>Meal Name</label><input type="text" id="meal-name" placeholder="e.g. Avocado Toast"></div>
+      <div class="form-group"><label>Calories (Kcal)</label><input type="number" id="meal-kcal" placeholder="0" min="0"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeMealModal()">Cancel</button>
+      <button class="btn-primary" id="meal-save-btn" onclick="logMeal()">Save Meal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FILTER MODAL ===================== -->
+<div class="modal-overlay hidden" id="filter-modal" onclick="closeFilter(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header"><h3>Filter by</h3><button class="close-btn" onclick="closeFilterPanel()">✕</button></div>
+    <div class="filter-scroll">
+      <div class="filter-section"><h4>Equipment</h4><div class="filter-chips"><button class="filter-chip" onclick="toggleFilter(this)">No equipment needed</button><button class="filter-chip" onclick="toggleFilter(this)">Equipment needed</button></div></div>
+      <div class="filter-section"><h4>Workouts</h4><div class="filter-chips"><button class="filter-chip" onclick="toggleFilter(this)">Strength &amp; Resistance</button><button class="filter-chip" onclick="toggleFilter(this)">Yoga</button><button class="filter-chip" onclick="toggleFilter(this)">Barre</button><button class="filter-chip" onclick="toggleFilter(this)">Pilates</button><button class="filter-chip" onclick="toggleFilter(this)">Cardio</button><button class="filter-chip" onclick="toggleFilter(this)">Low Intensity</button><button class="filter-chip" onclick="toggleFilter(this)">High Intensity</button><button class="filter-chip" onclick="toggleFilter(this)">New Additions</button></div></div>
+      <div class="filter-section"><h4>Duration</h4><div class="filter-chips"><button class="filter-chip" onclick="toggleFilter(this)">5–15 min</button><button class="filter-chip" onclick="toggleFilter(this)">15–30 min</button><button class="filter-chip" onclick="toggleFilter(this)">30–45 min</button><button class="filter-chip" onclick="toggleFilter(this)">45–60 min</button></div></div>
+      <div class="filter-section"><h4>Time of Day</h4><div class="filter-chips"><button class="filter-chip" onclick="toggleFilter(this)">Morning</button><button class="filter-chip" onclick="toggleFilter(this)">Afternoon</button><button class="filter-chip" onclick="toggleFilter(this)">Evening</button><button class="filter-chip" onclick="toggleFilter(this)">Nighttime</button></div></div>
+      <div class="filter-section"><h4>Level</h4><div class="filter-chips"><button class="filter-chip" onclick="toggleFilter(this)">Beginner</button><button class="filter-chip" onclick="toggleFilter(this)">Intermediate</button><button class="filter-chip" onclick="toggleFilter(this)">Advanced</button><button class="filter-chip" onclick="toggleFilter(this)">Expert</button></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="resetFilters()">Reset</button><button class="btn-primary" onclick="applyFilters()">Search Filtered Exercises</button></div>
+  </div>
+</div>
+
+</div><!-- end #app -->
+<script src="app.js"></script>
+</body>
+</html>

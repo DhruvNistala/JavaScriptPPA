@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "email": "john@thrive.com",
+    "passwordHash": "773e6f719de2168252ed8fb5fc1b1a2d7d9a90717df45c895be289a102407e0faa5916b91eadb9469986762c2203bfc6537b0fd4b93f5bf54926d05283c5a464",
+    "salt": "0b5dedf89152ff6b06a7f623125e0519",
+    "createdAt": "2026-04-17T03:15:09.502Z"
+  }
+]
